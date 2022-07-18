@@ -1,0 +1,34 @@
+{
+    "graph_map": "test_map",
+    "arrays2downsample": [
+        {"name": "signal", "method": "zoom"}
+    ],
+	"maps": [
+		"test_map"
+	],
+    "default_layer_options": {
+        "test_param": false,
+        "prior": false,
+        "smoothing": false
+    },
+    "methods": {
+        "1_layer": [{
+			"test_param": true
+		}],
+        "2_layer_unwrapping": [
+            {
+                "layer": 0,
+                "test_param": true
+            },
+            {
+                "layer": 1,
+                "test_param": false,
+                "prior": {
+                    "layer_for_range": 0,
+                    "layer_for_insert": []
+                }
+            }
+        ]
+    },
+    "default_method": "2_layer_unwrapping"
+}

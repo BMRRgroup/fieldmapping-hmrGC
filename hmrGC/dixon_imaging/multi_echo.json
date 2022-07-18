@@ -1,0 +1,160 @@
+{
+    "class": "Multi-echo",
+    "graph_map": "fieldmap",
+    "arrays2downsample": [
+        {"name": "signal", "method": "zoom"}
+    ],
+    "maps": [
+        "fieldmap",
+        "r2starmap"
+    ],
+    "default_layer_options": {
+        "reg_param": 1e0,
+        "min_min-max_distance_Hz": 12,
+        "noise_weighting_intra_edges": true,
+        "noise_weighting_inter_edges": false,
+        "smoothing": false,
+        "smoothing_sigma": 1,
+        "prior": false
+    },
+    "methods": {
+        "single-res": [
+            {
+                "name": "Fieldmap",
+                "type": "fieldmap"
+            },
+            {
+                "name": "R2starmap",
+                "type": "r2starmap"
+            },
+            {
+                "name": "Images",
+                "type": "images"
+            }
+        ],
+        "multi-res": [
+            {
+                "name": "Unwrapping",
+                "type": "fieldmap",
+                "voxelSize_mm": [5.5, 5.5, 5.5],
+                "reg_param": 1e-4,
+                "smoothing": true
+            },
+            {
+                "name": "Mid-res",
+                "type": "fieldmap",
+                "voxelSize_mm": [1.5, 1.5, 1.5],
+                "prior": {
+                    "layer_for_range": 0,
+                    "layer_for_insert": [],
+                    "neighborhood_for_range": [2.5, 2.5]
+                },
+                "smoothing": true
+            },
+            {
+                "name": "High-res",
+                "type": "fieldmap",
+                "prior": {
+                    "layer_for_range": 1,
+                    "layer_for_insert": [1],
+                    "neighborhood_for_range": [0.8, 0.8],
+                    "neighborhood_for_insert": [0.4, 0.4]
+                }
+            },
+            {
+                "name": "R2starmap",
+                "type": "r2starmap"
+            },
+            {
+                "name": "Images",
+                "type": "images"
+            }
+        ],
+        "breast": [
+            {
+                "name": "Unwrapping (WF)",
+                "type": "fieldmap",
+                "voxelSize_mm": [5.5, 5.5, 5.5],
+                "signal_model": "WF",
+                "reg_param": 1e-4,
+                "smoothing": true
+            },
+            {
+                "name": "Mid-res (WF)",
+                "type": "fieldmap",
+                "voxelSize_mm": [1.5, 1.5, 1.5],
+                "signal_model": "WF",
+                "prior": {
+                    "layer_for_range": 0,
+                    "layer_for_insert": [],
+                    "neighborhood_for_range": [2.5, 2.5]
+                },
+                "smoothing": true
+            },
+            {
+                "name": "Low-res (WFS)",
+                "type": "fieldmap",
+                "voxelSize_mm": [3, 3, 3],
+                "reg_param": 1e-4,
+                "run_functions": ["_set_prior_neighborhood"],
+                "prior": {
+                    "layer_for_range": 1,
+                    "layer_for_insert": []
+                },
+                "smoothing": true
+            },
+            {
+                "name": "Mid-res (WFS)",
+                "type": "fieldmap",
+                "voxelSize_mm": [1.5, 1.5, 1.5],
+                "reg_param": 1e-4,
+                "run_functions": ["_set_prior_neighborhood",
+                                  "_check_for_silicone_only_regions"],
+                "do_silicone_image": "true",
+                "modify_prior_insert": false,
+                "prior": {
+                    "layer_for_range": 1,
+                    "layer_for_insert": [1, 2],
+                    "neighborhood_for_insert": [0.4, 0.4]
+                },
+                "smoothing": true
+            },
+            {
+                "name": "High-res",
+                "type": "fieldmap",
+                "prior": {
+                    "neighborhood_for_range": [0.8, 0.8],
+                    "neighborhood_for_insert": [0.4, 0.4]
+                }
+            },
+            {
+                "name": "Refinement",
+                "type": "fieldmap",
+                "signal_model": "WF",
+                "run_functions": ["_add_voxeldependant_signal_models"],
+                "prior": {
+                    "layer_for_range": 4,
+                    "layer_for_insert": [4],
+                    "neighborhood_for_range": [0.4, 0.4],
+                    "neighborhood_for_insert": [0.4, 0.4],
+                    "prior_mask": true
+                }
+            },
+            {
+                "name": "R2starmap",
+                "type": "r2starmap",
+                "voxel-dependant_signal_model": true
+            },
+            {
+                "name": "Images",
+                "type": "images",
+                "voxel-dependant_signal_model": true
+            }
+        ]
+    },
+    "default_method": {
+        "W": "multi-res",
+        "WF": "multi-res",
+        "WFS": "breast"
+    }
+}

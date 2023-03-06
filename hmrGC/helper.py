@@ -114,7 +114,7 @@ except ModuleNotFoundError:
         pass
 
 
-def scale_array2interval_along1D(array, intervalVector, xp=xp):
+def scale_array2interval_along1D(array, intervalVector, xp=np):
     array = move2gpu(array, xp=xp)
     intervalVector = xp.array(intervalVector).astype(np.float32)
 
@@ -137,7 +137,7 @@ def scale_array2interval_along1D(array, intervalVector, xp=xp):
     return move2cpu(arrayScaled, xp)
 
 
-def scale_array2interval(array, intervalVector, xp=xp):
+def scale_array2interval(array, intervalVector, xp=np):
     array = move2gpu(array, xp)
     intervalVector = xp.array(intervalVector).astype(np.float32)
     newValueRange = xp.max(intervalVector) - xp.min(intervalVector)

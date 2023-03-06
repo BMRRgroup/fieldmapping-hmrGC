@@ -40,7 +40,7 @@ from hmrGC.dixon_imaging import MultiEcho
 signal = ...   # complex array with dim (nx, ny, nz, nte)
 mask = ...   # boolean array with dim (nx, ny, nz)
 params = {}
-params['TE_s'] == ...   # float array with dim (nte)
+params['TE_s'] = ...   # float array with dim (nte)
 params['centerFreq_Hz'] = ...   # float
 params['fieldStrength_T'] = ...   # float
 params['voxelSize_mm'] = ...   # recon voxel size with dim (3)
@@ -59,7 +59,7 @@ g.perform()   # methods with different parameters can be defined using the multi
 # Access separation results
 fieldmap = g.fieldmap
 r2starmap = g.r2starmap
-waterimg = g.images['water]
+waterimg = g.images['water']
 fatimg = g.images['fat']
 siliconeimg = g.images['silicone']   # only if silicone implants are present
 pdffmap = g.images['fatFraction_percent']

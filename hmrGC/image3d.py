@@ -335,7 +335,7 @@ class Image3D(object):
         for i in range(self.signal.shape[-1]):
             tmp_arr = depad_array3d(self.signal[..., i], padsize)
             arr_new[..., i] = move2gpu(revert_trim_zeros(tmp_arr, slicing, shape), xp)
-        self.signal = move2cpu(arr_new, xp)
+        self.signal = move2cpu(arr_new, np)
         for map_name in self._json_file['maps']:
             if hasattr(self, map_name):
                 arr = depad_array3d(getattr(self, map_name), padsize)

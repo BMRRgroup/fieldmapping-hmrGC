@@ -335,7 +335,7 @@ class Image3D(object):
         for i in range(self.signal.shape[-1]):
             tmp_arr = depad_array3d(self.signal[..., i], padsize)
             arr_new[..., i] = move2gpu(revert_trim_zeros(tmp_arr, slicing, shape), xp)
-        self.signal = move2cpu(arr_new, np)
+        self.signal = move2cpu(arr_new, xp)
         for map_name in self._json_file['maps']:
             if hasattr(self, map_name):
                 arr = depad_array3d(getattr(self, map_name), padsize)
@@ -436,7 +436,7 @@ def revert_trim_zeros(arr, slicing, orig_shape, xp=np):
     y = orig_shape[1] - slicing[1].stop
     z = orig_shape[2] - slicing[2].stop
 
-    arr = move2gpu(arr)
+    arr = move2gpu(arr, xp)
     arrBig = xp.pad(arr, ((slicing[0].start, x), \
                           (slicing[1].start, y), \
                           (slicing[2].start, z)), 'constant', \

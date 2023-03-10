@@ -436,7 +436,7 @@ def revert_trim_zeros(arr, slicing, orig_shape, xp=np):
     y = orig_shape[1] - slicing[1].stop
     z = orig_shape[2] - slicing[2].stop
 
-    arr = move2gpu(arr)
+    arr = move2gpu(arr, xp)
     arrBig = xp.pad(arr, ((slicing[0].start, x), \
                           (slicing[1].start, y), \
                           (slicing[2].start, z)), 'constant', \

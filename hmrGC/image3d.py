@@ -9,6 +9,7 @@ from hmrGC.helper import xp_function,  move2cpu, move2gpu, \
     free_mempool
 from scipy.ndimage import zoom
 import cv2 as cv
+import warnings
 
 
 class Image3D(object):
